@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "suppressExcessPropertyErrors": true,
+    "strictPropertyInitialization": false,
+    "removeComments": true
+  },
+  "include": [
+    "assets/typescript/**/*.ts",
+    "assets/typescript/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "./assets/typescript/vue-shims.d.ts"
+  ]
+}

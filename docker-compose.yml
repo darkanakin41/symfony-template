@@ -1,0 +1,64 @@
+version: '3.7'
+services:
+  php:
+    build:
+      context: .docker/php
+      cache_from:
+        - '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/php'
+    image: '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/php'
+    init: true
+    restart: '${DOCKER_DEVBOX_RESTART_POLICY}'
+    volumes:
+      - '${COMPOSE_PROJECT_DIR}:/var/www/html'
+      - '${COMPOSE_PROJECT_DIR}/.docker/php/php-config.ini:/usr/local/etc/php/conf.d/php-config.ini'
+      - '${COMPOSE_PROJECT_DIR}/.docker/php/msmtprc:/etc/msmtprc'
+      - 'php-composer-cache:/composer/cache'
+      - 'php-composer-vendor:/composer/vendor'
+    user: '${USER_ID}:${GROUP_ID}'
+  web:
+    build:
+      context: .docker/web
+      cache_from:
+        - '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/web'
+    image: '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/web'
+    init: true
+    restart: '${DOCKER_DEVBOX_RESTART_POLICY}'
+    volumes:
+      - '${COMPOSE_PROJECT_DIR}:/var/www/html'
+      - '${COMPOSE_PROJECT_DIR}/.docker/web/nginx.conf:/etc/nginx/conf.d/default.conf'
+  db:
+    build:
+      context: .docker/db
+      cache_from:
+        - '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/db'
+    image: '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/db'
+    init: true
+    restart: '${DOCKER_DEVBOX_RESTART_POLICY}'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=${COMPOSE_PROJECT_NAME}'
+      - 'MYSQL_DATABASE=${COMPOSE_PROJECT_NAME}'
+      - 'MYSQL_USER=${COMPOSE_PROJECT_NAME}'
+      - 'MYSQL_PASSWORD=${COMPOSE_PROJECT_NAME}'
+    volumes:
+      - '${COMPOSE_PROJECT_DIR}:/workdir'
+      - 'db-data:/var/lib/mysql'
+    user: '${USER_ID}:${GROUP_ID}'
+  node:
+    build:
+      context: .docker/node
+      cache_from:
+        - '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/node'
+    image: '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/node'
+    init: true
+    restart: '${DOCKER_DEVBOX_RESTART_POLICY}'
+    volumes:
+      - '${COMPOSE_PROJECT_DIR}:/app'
+      - 'node-cache:/home/node/.cache'
+      - 'node-npm-packages:/home/node/.npm-packages'
+    user: '${USER_ID}:${GROUP_ID}'
+volumes:
+  php-composer-cache: null
+  php-composer-vendor: null
+  db-data: null
+  node-cache: null
+  node-npm-packages: null

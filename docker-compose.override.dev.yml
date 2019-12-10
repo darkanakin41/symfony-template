@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  php:
+    environment:
+      - 'XDEBUG_CONFIG=remote_enable=on remote_autostart=off idekey=${COMPOSE_PROJECT_NAME} remote_host=${HOST_IP}'
+      - 'PHP_IDE_CONFIG=serverName=${COMPOSE_PROJECT_NAME}'
+  db:
+    ports:
+      - '${DOCKER_DEVBOX_PORT_PREFIX}06:3306'
+  mail:
+    build:
+      context: .docker/mail
+      cache_from:
+        - '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/mail'
+    image: '${DOCKER_DEVBOX_REGISTRY}${DOCKER_DEVBOX_REGISTRY_REPOSITORY}/mail'
+    init: true
+    restart: '${DOCKER_DEVBOX_RESTART_POLICY}'
+
+  node:
+    command: ['yarn','run','dev-server']

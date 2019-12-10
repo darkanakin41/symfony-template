@@ -1,0 +1,32 @@
+/docker-compose.override.yml
+/.docker-compose.resolved.yml
+/.docker-compose.*.resolved.yml
+/.docker-compose.generated.yml
+/.docker-compose.*.generated.yml
+/.docker/.ca-certificates
+/.docker/*/.ca-certificates
+/.docker-compose.env
+/.docker/*/Dockerfile
+/.docker/fixuid.tar.gz
+/.docker/*/fixuid.tar.gz
+/.init/
+/.bash_enter.env
+/.traefik/*.ssl.toml
+/webpack.config.js
+/.certs
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

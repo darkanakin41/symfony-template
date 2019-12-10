@@ -1,0 +1,35 @@
+{
+  "@gfi-centre-ouest/generator-docker-devbox": {
+    "promptValues": {
+      "projectName": "symfony-template",
+      "authorName": "Pierre LEJEUNE",
+      "authorEmail": "darkanakin41@gmail.com",
+      "features~0": [
+        "php-fpm-nginx",
+        "mariadb",
+        "node",
+        "mail"
+      ],
+      "features~0~php-fpm-nginx~phpVersion": "7.4",
+      "features~0~php-fpm-nginx~nginxVersion": "stable",
+      "features~0~php-fpm-nginx~phpExtensions": [
+        "xdebug",
+        "gd",
+        "opcache",
+        "zip"
+      ],
+      "features~0~php-fpm-nginx~phpTools": [
+        "composer"
+      ],
+      "features~0~mariadb~mariadbVersion": "10.4",
+      "features~0~node~nodeVersion": "13",
+      "features~0~node~nodeTools": [
+        "@vue/cli"
+      ],
+      "features~0~mail~mailserver": "maildev",
+      "features~0~more": false,
+      "features~1~php-fpm-nginx~nativeClientMySQL": null,
+      "portPrefix": 372
+    }
+  }
+}
