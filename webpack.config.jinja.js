@@ -1,29 +1,27 @@
 var Encore = require('@symfony/webpack-encore');
 
+const sockHost = "node.{{core.domain.sub}}.{{core.domain.ext}}";
+const projectUrl = "http://" + sockHost + "/";
+const baseFolder = "public/";
+const publicPath = "build/";
+
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
-// only needed for CDN's or sub-directory deploy
-Encore.setManifestKeyPrefix('build/');
-
-// directory where compiled assets will be stored
-Encore.setOutputPath('public/build/');
-// public path used by the web server to access the output path
+// the project directory where compiled assets will be stored
+Encore.setOutputPath(baseFolder + publicPath);
+// the public path used by the web server to access the previous directory
 Encore.setPublicPath('/build');
+Encore.setManifestKeyPrefix(publicPath);
+Encore.enableSourceMaps(!Encore.isProduction());
 
 /*
  * ENTRY CONFIG
- *
- * Add 1 entry for each "page" of your app
- * (including one that's included on every page - e.g. "app")
- *
- * Each entry will result in one JavaScript file (e.g. app.js)
- * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
  */
-Encore.addEntry('app', './assets/typescript/app.ts');
+Encore.addEntry('app', './assets/typescript/App/app.ts');
 //.addEntry('page1', './assets/js/page1.js')
 //.addEntry('page2', './assets/js/page2.js')
 
@@ -42,7 +40,6 @@ Encore.enableSingleRuntimeChunk();
  * https://symfony.com/doc/current/frontend.html#adding-more-features
  */
 Encore.cleanupOutputBeforeBuild();
-Encore.enableBuildNotifications();
 Encore.enableSourceMaps(!Encore.isProduction());
 // enables hashed filenames (e.g. app.abc123.css)
 Encore.enableVersioning(Encore.isProduction());
@@ -75,8 +72,7 @@ Encore.enableIntegrityHashes(Encore.isProduction());
 
 // Configuration related to webpack in relation with docker
 if (!Encore.isProduction()) {
-    Encore.disableCssExtraction();
-    Encore.setPublicPath('https://node.{{DOCKER_DEVBOX_DOMAIN_PREFIX}}.{{DOCKER_DEVBOX_DOMAIN}}/build/');
+    Encore.setPublicPath(projectUrl + publicPath);
 }
 
 const config = Encore.getWebpackConfig();
@@ -87,13 +83,14 @@ if (!Encore.isProduction()) {
     };
     config.devServer = {
         host: '0.0.0.0',
-        port: '8080',
+        port: 8080,
         hot: true,
         headers: {
             "Access-Control-Allow-Origin": "*",
         },
-        disableHostCheck: true,
-        sockHost: 'node.{{DOCKER_DEVBOX_DOMAIN_PREFIX}}.{{DOCKER_DEVBOX_DOMAIN}}',
+        sockHost: sockHost,
+        sockPort: 80,
+        disableHostCheck: true
     };
 }
 

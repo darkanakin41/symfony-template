@@ -1,0 +1,8 @@
+FROM mariadb:10.4
+LABEL maintainer="Pierre LEJEUNE <darkanakin41@gmail.com>"
+
+# Mount this volume to help loading/exporting dumps
+RUN mkdir /workdir
+VOLUME /workdir
+
+USER mysql

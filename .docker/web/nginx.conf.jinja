@@ -17,6 +17,6 @@ server {
         fastcgi_param PATH_INFO $fastcgi_path_info;
         fastcgi_param QUERY_STRING $query_string;
         fastcgi_intercept_errors on;
-        fastcgi_pass php.{{COMPOSE_NETWORK_NAME}}:9000;
+        fastcgi_pass php.{{docker.compose.network_name}}:9000;
     }
 }

@@ -6,15 +6,11 @@
 /.docker/.ca-certificates
 /.docker/*/.ca-certificates
 /.docker-compose.env
-/.docker/*/Dockerfile
 /.docker/fixuid.tar.gz
 /.docker/*/fixuid.tar.gz
 /.init/
 /.bash_enter.env
 /.traefik/*.ssl.toml
-/webpack.config.js
-/.certs
-/.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -31,3 +27,14 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> gfi-centre-ouest/docker-devbox-ddb ###
+.bin
+.certs
+.docker/web/nginx.conf
+.docker/php/msmtprc
+.docker/*/Dockerfile
+.traefik
+docker-compose.yml
+webpack.config.js
+###< gfi-centre-ouest/docker-devbox-ddb ###
